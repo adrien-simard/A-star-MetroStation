@@ -1,6 +1,7 @@
 class Graph {
-    constructor(adjacencyList){
+    constructor(adjacencyList,heuristic){
         this.adjacencyList=adjacencyList;
+        this.heuristic=heuristic;
     }
 
     get_graph(){
@@ -12,19 +13,10 @@ class Graph {
     }
 
     h(n){
-        const H = {
-            'Obolon':0,
-        'Petrivka':0,
-        'Tarasa Shevchenka':0,
-        'Kontraktova Ploschcha':0,
-        'Poshtova Ploschcha':0,
-        'Maidan Nezalezhnosti':0,
-        'Khreshchatyk':0,
-        'Teatralna':0,
-        'Zoloti Vorota':0
-        }
-        return H[n]
+        
+        return this.heuristic[n]
     }
+
 
     a_star_algorithm(start, stop){
         // create an openlist containaing the starting node
@@ -114,14 +106,79 @@ class Graph {
 
     }
 
+    get_H(stop){
+        Object.keys(this.heuristic).forEach(e => {
+            var h1 = this.a_star_algorithm(e, stop)
+            this.heuristic[e] =  Math.round(h1[1]*0.6)
+            
+        });
+        
+    }
+
 }
 
 
-
-graph = new Graph(adjac_lis)
+const H0 = {
+    'Heroiv Dnipra':0,
+    'Minska':0,
+    'Obolon':0,
+    'Petrivka':0,
+    'Tarasa Shevchenka':0,
+    'Kontraktova Ploschcha':0,
+    'Poshtova Ploschcha':0,
+    'Maidan Nezalezhnosti':0,
+    'Ploshcha Lva Tolstoho':0,
+    'Olimpiiska':0,
+    'Palats Ukrayina':0,
+    'Lybidska':0,
+    'Demiivska':0,
+    'Holosiivska':0,
+    'Vasylkivska':0,
+    'Vystavkovyi Tsentr':0,
+    'Ipodrom':0,
+    'Teremky':0,
+    'Zoloti Vorota':0,
+    'Palats Sportu':0,
+    'Arsenalna':0,
+    'Khreshchatyk':0,
+    'Teatralna':0,
+    'Lisova':0,
+    'Chernihivska':0,
+    'Darnytsia':0,
+    'Livoberezhna':0,
+    'Hidropark':0,
+    'Dnipro':0,
+    'Universytet':0,
+    'Vokzalna':0,
+    'Politekhnichyi Instytut':0,
+    'Shuliavska':0,
+    'Beresteiska':0,
+    'Nyvky':0,
+    'Sviatoshyn':0,
+    'Zhytomyrska':0,
+    'Akademmistechko':0,
+    'Lukianivska':0,
+    'Dorohozhychi':0,
+    'Syrets':0,
+    'Klovska':0,
+    'Pecherska':0,
+    'Druzhby Narodiv':0,
+    'Vydubychi':0,
+    'Slavutych':0,
+    'Osokorky':0,
+    'Pozniaky':0,
+    'Kharkivska':0,
+    'Vyrlytsia':0,
+    'Boryspilska':0,
+    'Chervony Khutir':0
+      
+}
+var H = H0
+graph = new Graph(adjac_lis,H0)
 a = graph.get_neighbors('A')
 console.log(a);
-graph.a_star_algorithm('Obolon', 'Boryspilska')
+
+
 
 
 //grid creation
@@ -140,6 +197,9 @@ const dep = $( "#departure" ).val();
 $("#search").on("click",()=> {
     const arr = $( "#arrive" ).val();
     const dep = $( "#departure" ).val();
+    // compute the heuristic with dijktra  
+    graph.get_H(dep)
+    console.log(graph.heuristic)
     const dt = graph.a_star_algorithm(dep,arr)
 
     grid.updateConfig({
@@ -151,10 +211,15 @@ $("#search").on("click",()=> {
         search: true,
         resizable: true,
         sort: true,
-        data:[[dep, dt[0].join("=>"), arr,dt[1]]]
+        data:[[dep, dt[0].join("=> "), arr,Math.round(dt[1])]]
       }).forceRender();
 }
 )
-
 $("#arrive").on("change",()=> console.log(arr));
 $("#departure").on("change",()=> console.log(dep));
+
+
+
+
+
+

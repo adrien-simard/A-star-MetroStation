@@ -56,4 +56,5 @@ const adjac_lis = {
 
 
 const stations = Object.keys(adjac_lis)
+console.log(stations)
 
