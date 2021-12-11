@@ -54,7 +54,7 @@ class Graph {
             }
             //if the current node is stop so finish !!
             if (n == stop) {
-                
+
                 const reconst_path = []
                 while (par[n]!= n) {
                     reconst_path.push(n)
@@ -70,14 +70,21 @@ class Graph {
             this.get_neighbors(n).forEach(node => {
                 const m = node[0]
                 const weight = node[1]
+                //if the neighbor node is not present add it to the open_list and add its 
                 if (!open_lst.has(m) && !closed_lst.has(m)) {
+                    // put its dist in the dist list
                     open_lst.add(m)
                     par[m] = n
                     dist[m] = dist[n] + weight
-                } else {
+                } 
+                //otherwise, check if it's faster to visit n, then m
+                
+                else {
                     if (dist[m]>dist[n]+weight) {
+                        //update par data and poo data
                         dist[m]= dist[n]+weight
                         par[m]=n
+                        //and if the node was in the closed_lst, move it to open_lst
                         if (closed_lst.has(m)) {
                             closed_lst.delete(m)
                             open_lst.add(m)
@@ -89,6 +96,7 @@ class Graph {
                 }
                 
             });
+            //remove n from the open_lst, and add it to closed_lst because all of his neighbors were inspected
             open_lst.delete(n)
             closed_lst.add(n)
             
