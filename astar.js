@@ -22,32 +22,39 @@ class Graph {
     }
 
     a_star_algorithm(start, stop){
+        // create an openlist containaing the starting node
+        // it will contain the nodes that have been generated but have not been yet visited 
         const open_lst = new Set([start])
+        // list which contain the visited nodes
         const closed_lst = new Set([])
-
-        const poo = {}
-        poo[start] = 0
-
+        //dist has present distances from start to all other nodes
+        //the default value is +infinity
+        const dist = {}
+        dist[start] = 0
+        //par contains an adjac mapping of all nodes
         const par = {}
         par[start] = start
 
         while (open_lst.size >0) {
             var n = 'None'
-
+            //it will find a node with the lowest value of f()
             open_lst.forEach(v => {
-                console.log(v);
-               if (n == 'None' || (poo[v]+ this.h(v))<(poo[n]+this.h(n))) {
+               if (n == 'None' || (dist[v]+ this.h(v))<(dist[n]+this.h(n))) {
+                   // (dist[v]+ this.h(v))<(dist[n]+this.h(n) <=> f(v)<f(n)
                    n=v
                } 
     
 
             });
+
             if (n =='None') {
                 console.log('no path 1');
                 return 'None'
                 
             }
+            //if the current node is stop so finish !!
             if (n == stop) {
+                
                 const reconst_path = []
                 while (par[n]!= n) {
                     reconst_path.push(n)
@@ -59,16 +66,17 @@ class Graph {
                 return reconst_path
             
             } 
+            //for all the neighbors of the current node do
             this.get_neighbors(n).forEach(node => {
                 const m = node[0]
                 const weight = node[1]
                 if (!open_lst.has(m) && !closed_lst.has(m)) {
                     open_lst.add(m)
                     par[m] = n
-                    poo[m] = poo[n] + weight
+                    dist[m] = dist[n] + weight
                 } else {
-                    if (poo[m]>poo[n]+weight) {
-                        poo[m]= poo[n]+weight
+                    if (dist[m]>dist[n]+weight) {
+                        dist[m]= dist[n]+weight
                         par[m]=n
                         if (closed_lst.has(m)) {
                             closed_lst.delete(m)
