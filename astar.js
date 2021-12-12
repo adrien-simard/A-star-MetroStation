@@ -204,7 +204,7 @@ $("#search").on("click",()=> {
 
     grid.updateConfig({
         // lets update the columns field only
-        columns: ["departure",'Names','stop','Distance'],
+        columns: ["departure",'Stations','stop','Distance'],
         pagination: {
           limit: 10
         },
