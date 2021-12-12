@@ -9,6 +9,7 @@ class Graph {
     }
 
     get_neighbors(v){
+        // return the nodes neighbors
         return this.adjacencyList[v]
     }
 
@@ -198,7 +199,7 @@ $("#search").on("click",()=> {
     const arr = $( "#arrive" ).val();
     const dep = $( "#departure" ).val();
     // compute the heuristic with dijktra  
-    graph.get_H(dep)
+    graph.get_H(arr)
     console.log(graph.heuristic)
     const dt = graph.a_star_algorithm(dep,arr)
 
