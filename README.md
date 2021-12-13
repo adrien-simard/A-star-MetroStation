@@ -1,5 +1,5 @@
 # A star algoritm for Metro Stations
-JS App to find the shortest route between two metro stations in Kiev. Implementation of the A star algorithme
+JS App to find the shortest route between two metro stations in Kiev. Implementation of the A star algorithm
 
 ## Enjoy our App
 https://adrien-simard.github.io/A-star-MetroStation 
